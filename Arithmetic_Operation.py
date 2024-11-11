@@ -1,6 +1,7 @@
 import tkinter as tk
 import math
 from fractions import Fraction
+import re
 
 last_answer = None
 
@@ -111,27 +112,23 @@ def arithmetic_window():
             # Convert ^ to ** for the eval to understand power calculations
             expression = expression.replace("^", "**")
             expression = expression.replace('sqrt', 'math.sqrt')
-            expression = expression.replace('e', '2.718281828459045')
-            expression = expression.replace('π', '3.1415926')
-            expression = expression.replace('log(', 'math.log')
-            expression = expression.replace('ln(', 'math.log')
-            expression = expression.replace('sin', 'math.sin')
-            expression = expression.replace('cos', 'math.cos')
-            expression = expression.replace('tan', 'math.tan')
-            expression = expression.replace('arcsin', 'math.asin')
-            expression = expression.replace('arccos', 'math.acos')
-            expression = expression.replace('arctan', 'math.atan')
-            # eval() will do the calculation
+            expression = expression.replace('π', str(math.pi))
+            expression = expression.replace('e', str(math.e))
+            expression = expression.replace('log(', 'math.log10(')
+            expression = expression.replace('ln(', 'math.log(')
+            expression = re.sub(r'\bsin\(([^)]+)\)', r'math.sin(math.radians(\1))', expression)
+            expression = re.sub(r'\bcos\(([^)]+)\)', r'math.cos(math.radians(\1))', expression)
+            expression = re.sub(r'\btan\(([^)]+)\)', r'math.tan(math.radians(\1))', expression)
+            expression = re.sub(r'\barcsin\(([^)]+)\)', r'math.degrees(math.asin(\1))', expression)
+            expression = re.sub(r'\barccos\(([^)]+)\)', r'math.degrees(math.acos(\1))', expression)
+            expression = re.sub(r'\barctan\(([^)]+)\)', r'math.degrees(math.atan(\1))', expression)
             result = eval(expression)
             last_answer = result
             display.delete(0, tk.END)
             display.insert(tk.END, str(result))
-        except Exception:
+        except Exception as e:
             display.delete(0, tk.END)
             display.insert(tk.END, 'Error')
-
-
-
 
     #Display Window (Relief creates a 3D boarder and Justify makes the input and output to the left
     display = tk.Entry(first_window, width = 25, font = ('', 40), relief = 'solid', justify = 'left', bg = 'red')
@@ -153,7 +150,7 @@ def arithmetic_window():
     # Button layout
     buttons_num = [
         '7', '8', '9', '^', 'sin', 'cos', 'tan', 'ans',
-        '4', '5', '6', 'x', '/', 'arcsin', 'arccos','arctan',
+        '4', '5', '6', '*', '/', 'arcsin', 'arccos','arctan',
         '1', '2', '3', '+', '-', 'a^b', 'sqrt', ')',
         '0', '.', '=', 'log', 'ln', 'e', 'π', '(',
     ]
@@ -176,7 +173,7 @@ def arithmetic_window():
             btn = tk.Button(first_window, text = button, font = ('', 14), command = log)
         elif button == 'ln':
             btn = tk.Button(first_window, text = button, font = ('', 14), command = natural_log)
-        elif button in ['sin' or 'cos' or 'tan' or 'arcsin' or 'arccos' or 'arctan']:
+        elif button in ['sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan']:
             btn = tk.Button(first_window, text = button, font = ('', 14), command = lambda name = button: trig_function(name))
         elif button == 'ans':
             btn = tk.Button(first_window, text = button, font = ('', 14), command = storage)

@@ -22,13 +22,8 @@ Option2 = tk.Button(mainWindow, text = 'Graph', width = 20, height = 3, font = (
 Option2.grid(row= 1, column =1)
 Option3 = tk.Button(mainWindow, text = 'Equation Solver', width = 20, height = 3, font = ('', 20), command = equation_solver_window)
 Option3.grid(row= 1, column =2)
-Option4 = tk.Button(mainWindow, text = 'Calculus and Derivative Solver', width = 20, height = 3, font = ('', 20))
-Option4.grid(row= 2, column =0)
-Option5 = tk.Button(mainWindow, text = 'Equation Storage', width = 20, height = 3, font = ('', 20))
-Option5.grid(row= 2, column =1)
-Option6 = tk.Button(mainWindow, text = 'Table', width = 20, height = 3, font = ('', 20))
-Option6.grid(row= 2, column =2)
 
+#Abandoned: Option4 = tk.Button(mainWindow, text = 'Calculus and Derivative Solver', width = 20, height = 3, font = ('', 20)) Option4.grid(row= 2, column =0) Option5 = tk.Button(mainWindow, text = 'Equation Storage', width = 20, height = 3, font = ('', 20)) Option5.grid(row= 2, column =1) Option6 = tk.Button(mainWindow, text = 'Table', width = 20, height = 3, font = ('', 20)) Option6.grid(row= 2, column =2)
 
 #Main the grid expands as you resize the windows
 mainWindow.grid_columnconfigure(0, weight = 1)
